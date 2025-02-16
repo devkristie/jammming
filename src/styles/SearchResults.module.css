@@ -1,0 +1,7 @@
+.searchResultsContainer {
+    width: 50%;
+    height: auto;
+    margin: 0 10px 0 20px;
+    background-color: #330044;
+    border: 1px solid #525252;
+}

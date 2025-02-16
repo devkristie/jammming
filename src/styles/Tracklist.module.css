@@ -1,0 +1,46 @@
+.trackListContainer {
+    margin: 50px;
+    padding: 20px 20px 0;
+    font-size: 1.25rem;
+    color: #FEFEFE;
+    background-color: #45005C;
+}
+
+h2 {
+    margin-bottom: 0.5em;
+    text-align: center;
+}
+
+.trackFlexContainer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #FEFEFE;
+}
+
+.trackContainer {
+    margin: 1em 0;
+    text-align: left;
+}
+
+.trackTitle {
+    font-size: 18px;
+    font-weight: 100;
+}
+
+.trackArtist {
+    color: #C9C9C9;
+    font-size: 16px;
+    font-weight: 100;
+}
+
+.deleteButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 20px;
+    height: 20px;
+    font-size: 17px;
+    background-color: #C9C9C9;
+    color: #45005C;
+}

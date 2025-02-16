@@ -1,0 +1,31 @@
+.searchBar {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 20px 0;
+}
+
+input {
+    width: 50%;
+    height: 2.5em;
+    font-size: 1rem;
+    padding-left: 1em;
+    color: #FEFEFE;
+    background-color: #525252;
+    border: none;
+    outline: none;
+}
+
+input:focus {
+    padding-left: 0.9em;
+    border: 2px solid #C300FF;
+}
+
+input::placeholder {
+    color: #FEFEFE;
+}
+
+.searchButton {
+    padding: 0 1em;
+    font-size: 1rem;
+}

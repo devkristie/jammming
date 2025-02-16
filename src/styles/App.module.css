@@ -1,0 +1,38 @@
+/* Background for the entire page */
+body {
+    background-color: #2B2B2B;
+    margin: 0;
+    padding: 0;
+}
+
+/* Main app container */
+.appContainer {
+    display: flex;
+    flex-direction: column;  /* Stacks children vertically */
+    align-items: center;
+    gap: 20px;  /* Adds space between elements */
+    width: 100%;
+}
+
+/* Navbar styles */
+nav {
+    width: 100%;
+    background-color: #151515;
+    padding: 1em 0;
+    text-align: center;
+}
+
+/* Heading styles */
+h1 {
+    font-size: 2rem;
+    color: #F2F2F2;
+}
+
+span {
+    font-size: 3rem;
+    color: #8E00E1;
+}
+
+.resultsAndPlaylistContainer {
+    display: flex;
+}
