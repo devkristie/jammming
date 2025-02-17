@@ -1,6 +1,49 @@
 .playlistContainer {
+    display: flex;
+    flex-direction: column;
     width: 50%;
+    height: auto;
     margin: 0 20px 0 10px;
+    padding: 3em 4.5em;
     background-color: #45005C;
     border: 1px solid #525252;
+}
+
+.playlistNameInput {
+    margin: 0 auto 2.5em;
+}
+
+.playlistTrackFlexContainer {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 3em;
+}
+
+.trackName,
+.trackArtist {
+    font-size: 1.5rem;    
+}
+
+.trackName {
+    color: #F2F2F2;
+}
+
+.trackBy {
+    font-size: 1.25rem;
+}
+
+.trackArtist {
+    color: #C9C9C9;
+}
+
+.removeButton {
+    width: 20px;
+    height: 20px;
+}
+
+.saveButton {
+    width: 10em;
+    margin: 1em auto 0;
+    padding: 0.5em 1em;
+    font-size: 1rem;
 }
