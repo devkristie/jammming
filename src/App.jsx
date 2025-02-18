@@ -40,52 +40,72 @@ function App() {
         setPlaylistName(event.target.value);
     };
 
-    // Function to simulate saving the playlist
     const savePlaylist = () => {
         if (!accessToken) {
             console.log("No access token available, please log in.");
             return;
         }
-
-        const trackUris = playlistTracks.map((track) => track.uri);
-        console.log('New Playlist Name:', playlistName);  
-        console.log('Saving playlist with these track URIs:', trackUris);
-        
-        setPlaylistTracks([]);
-        setPlaylistName('Name of playlist...');
+    
+        // Get the user ID
+        SpotifyAuth.getUserId()
+            .then(userId => {
+                if (userId) {
+                    // Create the playlist on Spotify
+                    return SpotifyAuth.createPlaylist(userId, playlistName)
+                        .then(playlistId => {
+                            if (playlistId) {
+                                // Add the tracks to the new playlist
+                                const trackUris = playlistTracks.map(track => track.uri);
+                                return SpotifyAuth.addTracksToPlaylist(userId, playlistId, trackUris);
+                            } else {
+                                throw new Error('Could not create playlist');
+                            }
+                        });
+                } else {
+                    throw new Error('Could not get user ID');
+                }
+            })
+            .then(() => {
+                // Reset the state after saving
+                setPlaylistTracks([]);
+                setPlaylistName('Name of playlist...');
+                console.log('Playlist saved to Spotify!');
+            })
+            .catch(err => {
+                console.log('Error saving playlist:', err);
+            });
     };
 
-    // Function to handle searching for tracks via Spotify API
-    const search = async (query) => {
-        if (!accessToken) {
-            console.log("No valid access token, please log in.");
+    // Function to search for tracks using the Spotify API
+    const search = (query) => {
+        const token = accessToken; // Ensure you have the token
+        if (!token) {
+            console.log("No access token available");
             return;
         }
 
-        const endpoint = `https://api.spotify.com/v1/search?type=track&q=${query}`;
-        const headers = {
-            Authorization: `Bearer ${accessToken}`,
-        };
-
-        try {
-            const response = await fetch(endpoint, { headers });
-            if (!response.ok) {
-                throw new Error('Failed to fetch data from Spotify');
-            }
-
-            const data = await response.json();
-            const tracks = data.tracks.items.map((track) => ({
-                id: track.id,
-                name: track.name,
-                artist: track.artists[0].name,
-                album: track.album.name,
-                uri: track.uri,
-            }));
-
-            setSearchResults(tracks);
-        } catch (error) {
-            console.error("Error fetching Spotify data:", error);
-        }
+        fetch(`https://api.spotify.com/v1/search?type=track&q=${query}`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                if (data && data.tracks && data.tracks.items) {
+                    const tracks = data.tracks.items.map((track) => ({
+                        id: track.id,
+                        name: track.name,
+                        artist: track.artists[0]?.name,
+                        uri: track.uri,
+                    }));
+                    setSearchResults(tracks); // Update the search results
+                } else {
+                    console.error("No tracks found or API response is malformed");
+                }
+            })
+            .catch((error) => {
+                console.error("Error fetching Spotify search results:", error);
+            });
     };
 
     return (
