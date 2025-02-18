@@ -55,14 +55,37 @@ function App() {
         setPlaylistName('Name of playlist...');
     };
 
-    // Function to simulate searching for tracks
-    const search = (query) => {
-        const mockResults = [
-            { id: '1', name: 'Song One', artist: 'Artist One', uri: 'spotify:track:1a2b3c4d5e' },
-            { id: '2', name: 'Song Two', artist: 'Artist Two', uri: 'spotify:track:2a2b3c4d5f' },
-            { id: '3', name: 'Song Three', artist: 'Artist Three', uri: 'spotify:track:3a2b3c4d5g' },
-        ];
-        setSearchResults(mockResults);
+    // Function to handle searching for tracks via Spotify API
+    const search = async (query) => {
+        if (!accessToken) {
+            console.log("No valid access token, please log in.");
+            return;
+        }
+
+        const endpoint = `https://api.spotify.com/v1/search?type=track&q=${query}`;
+        const headers = {
+            Authorization: `Bearer ${accessToken}`,
+        };
+
+        try {
+            const response = await fetch(endpoint, { headers });
+            if (!response.ok) {
+                throw new Error('Failed to fetch data from Spotify');
+            }
+
+            const data = await response.json();
+            const tracks = data.tracks.items.map((track) => ({
+                id: track.id,
+                name: track.name,
+                artist: track.artists[0].name,
+                album: track.album.name,
+                uri: track.uri,
+            }));
+
+            setSearchResults(tracks);
+        } catch (error) {
+            console.error("Error fetching Spotify data:", error);
+        }
     };
 
     return (
